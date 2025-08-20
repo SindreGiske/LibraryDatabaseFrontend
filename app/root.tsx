@@ -6,9 +6,11 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
+import "@navikt/ds-css"
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import {BodyWrapper} from "~/components/BodyWrapper";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -33,7 +35,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+      <BodyWrapper>
         {children}
+      </BodyWrapper>
         <ScrollRestoration />
         <Scripts />
       </body>
