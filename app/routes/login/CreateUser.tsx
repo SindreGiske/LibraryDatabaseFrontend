@@ -1,27 +1,82 @@
-import {Button, Heading, Page, TextField, VStack} from "@navikt/ds-react";
-import {Form} from "react-router";
+import {Box, Button, Heading, Modal, Page, TextField, VStack} from "@navikt/ds-react";
+import {Form, Link} from "react-router";
+import {useRef, useState} from "react";
+import {createUser} from "~/api/LoginAPI";
 
 function CreateUser () {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [message, setMessage] = useState<string | null>(null);
+    const ref = useRef<HTMLDialogElement>(null);
 
+    const handleCreate =  async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
+        if (password === confirmPassword) {
+            if (name && email && password) {
+                try {
+                    const res = await createUser(name, email, password);
+                    const data = res?.json();
+
+                    console.log("CreateUser res data: " + data);
+                    setMessage(data.message);
+                    ref.current?.showModal()
+                } catch (e) {
+                    console.error(e);
+                }
+            } else {
+                alert("Please enter an Email and a password.")
+            }
+        } else {
+            alert("Passwords don't match");
+        }
+
+    }
 
     return(
-        <Page>
-            <Page.Block gutters width={"lg"} as={"main"}>
-                <Form>
-                    <VStack className={"flex flex-col items-center justify-center w-full"} gap={"4"}>
-                        <Heading size="xlarge">Create User</Heading>
-                        <TextField label={"Name"}></TextField>
-                        <TextField label={"Email"}></TextField>
-                        <TextField label={"Password"}></TextField>
-                        <TextField label={"Repeat Password"}></TextField>
-                        <Button type="submit" color="secondary">Create</Button>
+        <Page.Block gutters width={"lg"} as={"main"}>
+            <VStack className={"flex flex-col items-center justify-center w-full mt-8 py-16 rounded-4xl" +
+                " border-2"} gap={"4"}>
+                <Heading size="xlarge">Create User</Heading>
+                <Form
+                    className={"flex flex-col items-center justify-center gap-3"}
+                    onSubmit={handleCreate}
+                >
+                    <TextField
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                        label={"name"}
+                    />
+                    <TextField
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                    label={"Email"}
+                    />
+                    <TextField
+                        onChange={(e) => setPassword(e.target.value)}
+                        label={"Password"}
+                        type="password"
+                    />
 
-                    </VStack>
+                    <TextField
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        label={"Repeat Password"}
+                        type="password"
+                    />
+                    <Button type="submit" color="secondary">Create</Button>
                 </Form>
-            </Page.Block>
-        </Page>
+                {message && (
+                    <Box className="mt-4 p-4 border rounded-lg bg-gray-100">
+                        {message}
+                    </Box>
+                )}
+            </VStack>
+            <Modal ref={ref} header={{heading: `User ${email} has been created!`}}>
+                <Modal.Body>
+                    <Button as={"a"} href={"/dashboard"}>Log In</Button>
+                </Modal.Body>
+            </Modal>
+        </Page.Block>
     );
 }
-
 export default CreateUser;

@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 import "@navikt/ds-css"
+import './novari-theme.css';
 
 import type { Route } from "./+types/root";
 import "./app.css";
@@ -34,7 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body data-theme={"novari"}>
       <BodyWrapper>
         {children}
       </BodyWrapper>

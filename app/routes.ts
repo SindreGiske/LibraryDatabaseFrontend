@@ -7,5 +7,6 @@ import {
 export default [
     index("routes/login/loginPage.tsx"),
     route("createUser", "routes/login/CreateUser.tsx"),
+    route("dashboard", "routes/main/Dashboard.tsx"),
 
     ] satisfies RouteConfig;
