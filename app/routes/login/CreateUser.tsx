@@ -17,8 +17,7 @@ function CreateUser () {
         if (password === confirmPassword) {
             if (name && email && password) {
                 try {
-                    const res = await createUser(name, email, password);
-                    const data = res?.json();
+                    const data = await createUser(name, email, password);
 
                     console.log("CreateUser res data: " + data);
                     setMessage(data.message);
@@ -71,7 +70,7 @@ function CreateUser () {
                     </Box>
                 )}
             </VStack>
-            <Modal ref={ref} header={{heading: `User ${email} has been created!`}}>
+            <Modal ref={ref} header={{ heading: `User ${email} has been created!`, size:"small" }}>
                 <Modal.Body>
                     <Button as={"a"} href={"/dashboard"}>Log In</Button>
                 </Modal.Body>
