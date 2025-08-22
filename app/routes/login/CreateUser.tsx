@@ -1,5 +1,5 @@
 import {Box, Button, Heading, Modal, Page, TextField, VStack} from "@navikt/ds-react";
-import {Form, Link} from "react-router";
+import {Form } from "react-router";
 import {useRef, useState} from "react";
 import {createUser} from "~/api/LoginAPI";
 
