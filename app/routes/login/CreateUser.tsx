@@ -1,9 +1,9 @@
 import {Box, Button, Heading, Modal, Page, TextField, VStack} from "@navikt/ds-react";
-import {Form } from "react-router";
+import {Form} from "react-router";
 import {useRef, useState} from "react";
 import {createUser} from "~/api/LoginAPI";
 
-function CreateUser () {
+function CreateUser() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -11,7 +11,7 @@ function CreateUser () {
     const [message, setMessage] = useState<string | null>(null);
     const ref = useRef<HTMLDialogElement>(null);
 
-    const handleCreate =  async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (password === confirmPassword) {
@@ -31,10 +31,9 @@ function CreateUser () {
         } else {
             alert("Passwords don't match");
         }
-
     }
 
-    return(
+    return (
         <Page.Block gutters width={"lg"} as={"main"}>
             <VStack className={"flex flex-col items-center justify-center w-full mt-8 py-16 rounded-4xl" +
                 " border-2"} gap={"4"}>
@@ -48,8 +47,8 @@ function CreateUser () {
                         label={"name"}
                     />
                     <TextField
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-                    label={"Email"}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                        label={"Email"}
                     />
                     <TextField
                         onChange={(e) => setPassword(e.target.value)}
@@ -70,7 +69,7 @@ function CreateUser () {
                     </Box>
                 )}
             </VStack>
-            <Modal ref={ref} header={{ heading: `User ${email} has been created!`, size:"small" }}>
+            <Modal ref={ref} header={{heading: `User ${email} has been created!`, size: "small"}}>
                 <Modal.Body>
                     <Button as={"a"} href={"/dashboard"}>Log In</Button>
                 </Modal.Body>
@@ -78,4 +77,5 @@ function CreateUser () {
         </Page.Block>
     );
 }
+
 export default CreateUser;
