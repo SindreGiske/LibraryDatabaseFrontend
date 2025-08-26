@@ -15,9 +15,8 @@ function LoginPage() {
 
         if (email && password) {
             try {
-                const res = await attemptLogin(email, password);
-                console.log("handleLogin res: ", res);
-                const data = res?.data.json();
+                const data = await attemptLogin(email, password);
+                console.log("handleLogin res: ", data);
 
                 console.log("handleLogin res data: " + data);
                 setMessage(data.message);
