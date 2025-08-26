@@ -1,10 +1,10 @@
-import {NovariApiManager} from "novari-frontend-components";
+import {type ApiResponse, NovariApiManager} from "novari-frontend-components";
 
 const apiManager = new NovariApiManager({
     baseUrl: "http://localhost:8080/books",
 })
 
-export async function getAllBooks() {
+export async function getAllBooks(): Promise<ApiResponse<any>> {
 
     return await apiManager.call({
         method: "GET",
@@ -13,7 +13,7 @@ export async function getAllBooks() {
     })
 }
 
-export async function getAvailable() {
+export async function getAvailable(): Promise<ApiResponse<any>> {
 
     return await apiManager.call({
         method: "GET",
