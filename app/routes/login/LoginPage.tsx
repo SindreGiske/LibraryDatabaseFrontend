@@ -17,9 +17,6 @@ function LoginPage() {
         if (email && password) {
             try {
                 const data = await attemptLogin(email, password);
-                console.log("handleLogin res: ", data);
-
-                console.log("handleLogin res data: " + data);
                 setMessage(data.message);
                 setUser(data.body)
                 navigate("/dashboard", {replace: true});

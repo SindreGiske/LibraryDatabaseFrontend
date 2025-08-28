@@ -1,9 +1,12 @@
 import {Box, Button, Heading, Modal, Page, TextField, VStack} from "@navikt/ds-react";
-import {Form} from "react-router";
+import {Form, useNavigate} from "react-router";
 import {useRef, useState} from "react";
 import {createUser} from "~/api/LoginAPI";
+import {useUser} from "~/context/UserContext";
 
 function CreateUser() {
+    const {setUser} = useUser();
+    const navigate = useNavigate();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -21,6 +24,7 @@ function CreateUser() {
 
                     console.log("CreateUser res data: " + data);
                     setMessage(data.message);
+                    setUser(data.body)
                     ref.current?.showModal()
                 } catch (e) {
                     console.error(e);
@@ -71,7 +75,7 @@ function CreateUser() {
             </VStack>
             <Modal ref={ref} header={{heading: `User ${email} has been created!`, size: "small"}}>
                 <Modal.Body>
-                    <Button as={"a"} href={"/dashboard"}>Log In</Button>
+                    <Button onClick={() => (navigate("/dashboard", {replace: true}))}>Log In</Button>
                 </Modal.Body>
             </Modal>
         </Page.Block>

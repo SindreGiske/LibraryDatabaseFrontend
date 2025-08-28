@@ -1,5 +1,6 @@
-import {createContext, type ReactNode, useContext, useState} from "react";
+import {createContext, type ReactNode, useContext, useEffect, useState} from "react";
 import type {UserInfo} from "~/types/UserInfo";
+import {useNavigate} from "react-router";
 
 type UserContextType = {
     user: UserInfo | null;
@@ -10,6 +11,14 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({children}: { children: ReactNode }) => {
     const [user, setUser] = useState<UserInfo | null>(null);
+    const navigate = useNavigate();
+
+
+    useEffect(() => {
+        if (user === null) {
+            navigate("/", {replace: true}); // go to login page
+        }
+    }, [user, navigate]);
 
     return (
         <UserContext.Provider value={{user, setUser}}>
