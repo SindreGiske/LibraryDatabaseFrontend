@@ -2,13 +2,14 @@ import {Box, Button, Heading, Label, Page, TextField, VStack} from "@navikt/ds-r
 import {Form, Link, useNavigate} from "react-router";
 import {useState} from "react";
 import {attemptLogin} from "~/api/LoginAPI";
-
+import {useUser} from "~/context/UserContext";
 
 function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState<string | null>(null);
     const navigate = useNavigate();
+    const {setUser} = useUser();
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -20,6 +21,7 @@ function LoginPage() {
 
                 console.log("handleLogin res data: " + data);
                 setMessage(data.message);
+                setUser(data.body)
                 navigate("/dashboard", {replace: true});
             } catch (e) {
                 console.error(e);
