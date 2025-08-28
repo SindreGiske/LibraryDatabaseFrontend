@@ -3,7 +3,7 @@
 
 
     --a-bg-default: #FEFCFA;
-    --a-bg-subtle:#FCF5ED;
+    --a-bg-subtle: #FCF5ED;
 
     --a-surface-action: var(--a-surface-alt-3-strong);
     --a-surface-action-hover: #5149CA;
@@ -39,6 +39,7 @@
     }
 
     /* Styles for the active panel */
+
     .my-custom-panel {
         background-color: #f3f4f6; /* Light gray background */
         padding: 36px 16px 36px 26px;
@@ -50,6 +51,7 @@
     }
 
     /* Styles for the disabled panel */
+
     .my-custom-panel-disabled {
         background-color: #e0e0e0; /* Gray background to indicate disabled state */
         padding: 36px 16px 36px 26px;
@@ -62,6 +64,7 @@
     }
 
     /* Styles for the title within the panel */
+
     .panel-title {
         display: flex;
         align-items: center;
@@ -71,11 +74,13 @@
     }
 
     /* Styles for the disabled title */
+
     .panel-title-disabled {
         color: #b0b0b0; /* Lighter gray to indicate disabled text */
     }
 
     /* Icon styles */
+
     .panel-icon {
         margin-right: 20px;
         font-size: 34px;
@@ -92,12 +97,14 @@
     }
 
     /* Styles for the disabled icon */
+
     .panel-icon-disabled {
         color: #b0b0b0; /* Lighter color for the icon */
         border: #b0b0b0 1px solid; /* Lighter border for the disabled icon */
     }
 
     /* Description styles */
+
     .panel-description {
         margin-top: 4px;
         font-size: 16px;
@@ -105,11 +112,13 @@
     }
 
     /* Styles for disabled description */
+
     .panel-description-disabled {
         color: #a0a0a0; /* Dimmed color for disabled description text */
     }
 
     /* Hover effect */
+
     .my-custom-panel:hover {
         background-color: #f8ebdb; /* Darker gray background on hover */
     }
@@ -119,6 +128,7 @@
     }
 
     /* Disable hover effect on the title and icon when the panel is disabled */
+
     .my-custom-panel-disabled:hover {
         background-color: #e0e0e0; /* Maintain the disabled background color */
     }

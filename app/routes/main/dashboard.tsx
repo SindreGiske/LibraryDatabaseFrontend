@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Page, VStack} from "@navikt/ds-react";
+import {Loader, Page, VStack} from "@navikt/ds-react";
 import type {Book} from "~/types/Book";
 import {getAllBooks} from "~/api/BooksAPI";
 import BookComponent from "~/components/BookComponent";
@@ -26,9 +26,13 @@ export default function Dashboard() {
         loadBooks();
     }, [])
 
-    return loading ? (<></>) : (
-        <Page.Block>
-            <VStack>
+    return loading ? (
+        <div className={"h-full w-full flex items-center justify-center"}>
+            <Loader size="3xlarge" title="Loading..."/>
+        </div>
+    ) : (
+        <Page.Block gutters width={"lg"}>
+            <VStack width={"340px"}>
                 {allBooks.map((book) => (
                     <BookComponent key={book.id} book={book}/>
                 ))}
