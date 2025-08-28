@@ -2,8 +2,8 @@ import {Page} from "@navikt/ds-react";
 import {NovariHeader} from "novari-frontend-components";
 import {useUser} from "~/context/UserContext";
 
-
 export function BodyWrapper({children}: { children: React.ReactNode }) {
+
     const {user} = useUser()
 
     return (

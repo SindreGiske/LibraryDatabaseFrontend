@@ -1,10 +1,11 @@
-import {Box, Button, Heading, Modal, Page, TextField, VStack} from "@navikt/ds-react";
+import {Box, Button, Heading, Modal, Page, Switch, TextField, VStack} from "@navikt/ds-react";
 import {Form, useNavigate} from "react-router";
 import {useRef, useState} from "react";
 import {createUser} from "~/api/LoginAPI";
 import {useUser} from "~/context/UserContext";
 
 function CreateUser() {
+
     const {setUser} = useUser();
     const navigate = useNavigate();
     const [name, setName] = useState("");
@@ -13,7 +14,8 @@ function CreateUser() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState<string | null>(null);
     const ref = useRef<HTMLDialogElement>(null);
-
+    const [keepLoggedIn, setKeepLoggedIn] = useState(false);
+    
     const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -67,6 +69,13 @@ function CreateUser() {
                     />
                     <Button type="submit" color="secondary">Create</Button>
                 </Form>
+
+                <Switch
+                    checked={keepLoggedIn}
+                    onChange={(e) => setKeepLoggedIn(e.target.checked)}
+                >
+                    Keep me logged in
+                </Switch>
                 {message && (
                     <Box className="mt-4 p-4 border rounded-lg bg-gray-100">
                         {message}

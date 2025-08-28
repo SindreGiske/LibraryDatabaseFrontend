@@ -4,15 +4,31 @@ import {useNavigate} from "react-router";
 
 type UserContextType = {
     user: UserInfo | null;
-    setUser: (user: UserInfo | null) => void;
+    setUser: (user: UserInfo | null, persist?: boolean) => void;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({children}: { children: ReactNode }) => {
-    const [user, setUser] = useState<UserInfo | null>(null);
     const navigate = useNavigate();
 
+    // Initialize state from localStorage
+    const [user, setUserState] = useState<UserInfo | null>(() => {
+        if (typeof window !== "undefined") {
+            const stored = localStorage.getItem("user");
+            return stored ? JSON.parse(stored) : null;
+        }
+        return null;
+    });
+
+    const setUser = (user: UserInfo | null, persist = false) => {
+        setUserState(user);
+        if (persist && user) {
+            localStorage.setItem("user", JSON.stringify(user));
+        } else {
+            localStorage.removeItem("user");
+        }
+    };
 
     useEffect(() => {
         if (user === null) {

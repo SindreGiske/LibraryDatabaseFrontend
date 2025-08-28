@@ -1,4 +1,4 @@
-import {Box, Heading} from "@navikt/ds-react";
+import {Button, Heading} from "@navikt/ds-react";
 import type {Book} from "~/types/Book";
 
 type BookProps = {
@@ -10,9 +10,9 @@ export default function BookComponent(
 ) {
 
     return (
-        <Box className={"bookComponent"}>
+        <Button className={"bookComponent"}>
             <Heading align={"center"} size={"small"}>{book.title}</Heading>
             <Heading align={"center"} size={"xsmall"}>{book.author}</Heading>
-        </Box>
+        </Button>
     )
 }

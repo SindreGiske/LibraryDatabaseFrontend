@@ -1,15 +1,17 @@
-import {Box, Button, Heading, Label, Page, TextField, VStack} from "@navikt/ds-react";
+import {Box, Button, Heading, Label, Page, Switch, TextField, VStack} from "@navikt/ds-react";
 import {Form, Link, useNavigate} from "react-router";
 import {useState} from "react";
 import {attemptLogin} from "~/api/LoginAPI";
 import {useUser} from "~/context/UserContext";
 
+
 function LoginPage() {
+    const {setUser} = useUser();
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [keepLoggedIn, setKeepLoggedIn] = useState(false);
     const [message, setMessage] = useState<string | null>(null);
-    const navigate = useNavigate();
-    const {setUser} = useUser();
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -18,7 +20,7 @@ function LoginPage() {
             try {
                 const data = await attemptLogin(email, password);
                 setMessage(data.message);
-                setUser(data.body)
+                setUser(data.body, keepLoggedIn);
                 navigate("/dashboard", {replace: true});
             } catch (e) {
                 console.error(e);
@@ -53,6 +55,11 @@ function LoginPage() {
                         {message}
                     </Box>
                 )}
+                <Switch
+                    checked={keepLoggedIn}
+                    type="checkbox"
+                    onChange={() => setKeepLoggedIn(!keepLoggedIn)}
+                >Keep me logged in</Switch>
                 <Box height={"82px"} className={"flex flex-row gap-1 items-center justify-center m-4 p-8" +
                     " border-2 rounded-lg bg-amber-100/50"}>
                     <Label size="medium">Not registered yet?</Label>

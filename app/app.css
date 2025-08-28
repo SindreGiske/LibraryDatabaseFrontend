@@ -29,5 +29,13 @@ body {
         height: 82px;
 
         background-color: var(--a-bg-subtle);
+
+        transition-duration: 0.2s;
+    }
+
+    .bookComponent:hover {
+        background-color: var(--a-surface-alt-3-subtle);
+        scale: 102%;
+        transition-duration: 0.3s;
     }
 }
