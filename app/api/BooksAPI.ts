@@ -8,7 +8,7 @@ export async function getAllBooks(): Promise<ApiResponse<any>> {
 
     return await apiManager.call({
         method: "GET",
-        endpoint: "all",
+        endpoint: "/all",
         functionName: "getAllBooks",
     })
 }
@@ -17,7 +17,18 @@ export async function getAvailable(): Promise<ApiResponse<any>> {
 
     return await apiManager.call({
         method: "GET",
-        endpoint: "available",
+        endpoint: "/available",
         functionName: "getAvailableBooks",
+    })
+}
+
+export async function searchForBooks(input: string): Promise<ApiResponse<any>> {
+    return await apiManager.call({
+        method: "GET",
+        endpoint: "/search",
+        functionName: "searchBooks",
+        body: {
+            "input": input
+        }
     })
 }
