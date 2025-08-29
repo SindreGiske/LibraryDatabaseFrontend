@@ -19,9 +19,14 @@ function LoginPage() {
         if (email && password) {
             try {
                 const data = await attemptLogin(email, password);
-                setMessage(data.message);
-                setUser(data.body, keepLoggedIn);
-                navigate("/dashboard", {replace: true});
+                if (data.status == 200) {
+                    setMessage(data.message);
+                    setUser(data.body, keepLoggedIn);
+                    console.log("LoginPage HandleLogin data.body:   ", data.body, "data.data:", data.data)
+                    navigate("/dashboard", {replace: true});
+                } else {
+                    setMessage(data.message);
+                }
             } catch (e) {
                 console.error(e);
             }

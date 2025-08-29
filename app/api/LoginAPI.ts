@@ -8,7 +8,7 @@ const loginManager = new NovariApiManager({
 export async function attemptLogin(email: string, password: string): Promise<ApiResponse<UserInfo | null>> {
 
     return await loginManager.call({
-        method: "GET",
+        method: "POST",
         endpoint: ``,
         functionName: "login",
         body: {
@@ -22,7 +22,7 @@ export async function createUser(name: string, email: string, password: string):
 
     return await loginManager.call({
         method: "POST",
-        endpoint: ``,
+        endpoint: `/register`,
         functionName: "createUser",
         body: {
             "name": name,

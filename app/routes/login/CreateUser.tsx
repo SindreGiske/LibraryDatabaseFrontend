@@ -15,7 +15,7 @@ function CreateUser() {
     const [message, setMessage] = useState<string | null>(null);
     const ref = useRef<HTMLDialogElement>(null);
     const [keepLoggedIn, setKeepLoggedIn] = useState(false);
-    
+
     const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -26,8 +26,10 @@ function CreateUser() {
 
                     console.log("CreateUser res data: " + data);
                     setMessage(data.message);
-                    setUser(data.body)
-                    ref.current?.showModal()
+                    if (data.status == 200) {
+                        setUser(data.body)
+                        ref.current?.showModal()
+                    }
                 } catch (e) {
                     console.error(e);
                 }
