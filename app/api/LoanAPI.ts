@@ -8,7 +8,7 @@ export async function createLoan(bookId: number, userId: number): Promise<ApiRes
     return await apiManager.call({
         method: "POST",
         endpoint: "",
-        functionName: "getAllBooks",
+        functionName: "createLoan",
         body: {
             "bookId": bookId,
             "borrowerId": userId
