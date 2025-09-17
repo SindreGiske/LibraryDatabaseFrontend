@@ -1,6 +1,5 @@
-import {Box, Button, Heading} from "@navikt/ds-react";
+import {Box, Button, Heading, Label} from "@navikt/ds-react";
 import type {Book} from "~/types/Book";
-import {BagdeIcon} from "@navikt/aksel-icons";
 
 type BookProps = {
     book: Book;
@@ -17,11 +16,11 @@ export default function BookComponent(
                 <Heading align={"center"} size={"small"}>{book.title}</Heading>
                 <Heading align={"center"} size={"xsmall"}>{book.author}</Heading>
             </Button>
-            <div className={"relative"}>
+            <div className={"w-full text-center"}>
                 {book.loaned ?
-                    <div>{book.loaned}</div>
+                    <Label>this book currently unavailable.</Label>
                     :
-                    <BagdeIcon title="a11y-title" fontSize="1.5rem"/>
+                    null
                 }
             </div>
         </Box>
