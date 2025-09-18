@@ -21,7 +21,7 @@ function LoginPage() {
                 const data = await attemptLogin(email, password);
                 if (data.status == 200) {
                     setMessage(data.message);
-                    setUser(data.body, keepLoggedIn);
+                    setUser(data.data!!, keepLoggedIn);
                     console.log("LoginPage HandleLogin data.body:   ", data.body, "data.data:", data.data)
                     navigate("/dashboard", {replace: true});
                 } else {

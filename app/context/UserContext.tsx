@@ -23,6 +23,7 @@ export const UserProvider = ({children}: { children: ReactNode }) => {
 
     const setUser = (user: UserInfo | null, persist = false) => {
         setUserState(user);
+        console.log("UserContext setUser:   ", user);
         if (persist && user) {
             localStorage.setItem("user", JSON.stringify(user));
         } else {
