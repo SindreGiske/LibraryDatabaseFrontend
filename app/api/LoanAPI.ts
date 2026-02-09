@@ -4,33 +4,29 @@ const apiManager = new NovariApiManager({
     baseUrl: "http://localhost:8080/loan",
 })
 
-export async function createLoan(bookId: number, userId: number): Promise<ApiResponse<any>> {
+export async function createLoan(bookId: number): Promise<ApiResponse<any>> {
     return await apiManager.call({
         method: "POST",
         endpoint: "",
         functionName: "createLoan",
         body: {
             "bookId": bookId,
-            "borrowerId": userId
         }
     })
 }
 
-export async function getMyLoans(UserId: number): Promise<ApiResponse<any>> {
+export async function getMyLoans(): Promise<ApiResponse<any>> {
     return await apiManager.call({
         method: "GET",
-        endpoint: "",
+        endpoint: "/getMyLoans",
         functionName: "getMyLoans",
-        body: {
-            "borrowerId": UserId,
-        }
     })
 }
 
 export async function returnBook(loanId: number): Promise<ApiResponse<any>> {
     return await apiManager.call({
         method: "PATCH",
-        endpoint: "",
+        endpoint: "/return",
         functionName: "returnBook",
         body: {
             "loanId": loanId

@@ -5,7 +5,7 @@ import {getAllBooks} from "~/api/BooksAPI";
 import BookComponent from "~/components/BookComponent";
 import {createLoan} from "~/api/LoanAPI";
 import {useUser} from "~/context/UserContext";
-import type {NovariSnackbarItem} from "novari-frontend-components";
+import type {NovariSnackbarItem, NovariSnackbarVariant} from "novari-frontend-components";
 import {NovariSnackbar} from "novari-frontend-components";
 
 export default function Dashboard() {
@@ -15,7 +15,8 @@ export default function Dashboard() {
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
     const [alerts, setAlerts] = useState<NovariSnackbarItem[]>([]);
 
-    const addAlert = (variant: NovariSnackbarItem['variant'], message: string, header?: string) => {
+    // Alert Handler
+    const addAlert = (variant: NovariSnackbarVariant, message: string, header: string) => {
         const newAlert = {
             id: Date.now().toString(),
             variant,
@@ -29,7 +30,7 @@ export default function Dashboard() {
         const loadBooks = async () => {
             try {
                 const response = await getAllBooks();
-
+                console.log(response);
                 console.log("GetAllBooks Body: ", response.data);
                 setAllBooks(response.data);
             } catch (err) {
@@ -41,7 +42,7 @@ export default function Dashboard() {
         loadBooks();
     }, [])
 
-    async function loanBook(bookId: number) {
+    async function loanBook() {
 
         if (!selectedBook || !user) {
             console.error("Missing book or user");
@@ -49,7 +50,7 @@ export default function Dashboard() {
         }
         try {
             const loan = await createLoan(selectedBook.id, user.id);
-            addAlert(loan.variant, loan.variant);
+            addAlert(loan.variant, "", "header");
             console.log("Loan book User: ", user);
             console.log("Loaning Book: ", loan);
         } catch (err) {
@@ -62,41 +63,43 @@ export default function Dashboard() {
             <Loader size="3xlarge" title="Loading..."/>
         </div>
     ) : (
-        <Page.Block gutters width={"lg"} className={"dashboardBackground"}>
-            <NovariSnackbar items={[alerts]}/>
-            <VStack className={"bookShelf"}>
-                <Heading size="large" className={"w-full text-center"}>All books</Heading>
-                {allBooks.map((book) => (
-                    <BookComponent
-                        key={book.id}
-                        book={book}
-                        onClick={() => setSelectedBook(book)}
-                    />
-                ))}
-            </VStack>
-            <Modal
-                width={"small"}
-                open={!!selectedBook}
-                closeOnBackdropClick={true}
-                onClose={() => setSelectedBook(null)}
-                aria-label={"HELP ME I'M TRAPPED INSIDE A COMPUTER AAAAAAAAAAAAAAAAAAAAHHH!!!!"}
-            >
-                <Modal.Header closeButton className={"text-center"}>
-                    <Heading size={"xlarge"}>{selectedBook?.title}</Heading>
-                    <Heading size={"medium"}>Author: {selectedBook?.author}</Heading>
-                </Modal.Header>
-                <Modal.Body className={"flex justify-center"}>
-                    {selectedBook?.loaned ?
-                        <Label size={"medium"}>
-                            Book is currently unavailable.
-                        </Label>
-                        :
-                        <div>
-                            <Button onClick={() => loanBook(selectedBook!!.id)}>Loan this Book</Button>
-                        </div>}
-                </Modal.Body>
-            </Modal>
-        </Page.Block>
+        <main className={"dashboardBackground"}>
+            <Page.Block gutters width={"lg"}>
+                <NovariSnackbar items={[alerts]}/>
+                <VStack className={"bookShelf"}>
+                    <Heading size="large" className={"w-full text-center"}>All books</Heading>
+                    {allBooks?.map((book) => (
+                        <BookComponent
+                            key={book.id}
+                            book={book}
+                            onClick={() => setSelectedBook(book)}
+                        />
+                    ))}
+                </VStack>
+                <Modal
+                    width={"small"}
+                    open={!!selectedBook}
+                    closeOnBackdropClick={true}
+                    onClose={() => setSelectedBook(null)}
+                    aria-label={"HELP ME I'M TRAPPED INSIDE A COMPUTER AAAAAAAAAAAAAAAAAAAAHHH!!!!"}
+                >
+                    <Modal.Header closeButton className={"text-center"}>
+                        <Heading size={"xlarge"}>{selectedBook?.title}</Heading>
+                        <Heading size={"medium"}>Author: {selectedBook?.author}</Heading>
+                    </Modal.Header>
+                    <Modal.Body className={"flex justify-center"}>
+                        {selectedBook?.loaned ?
+                            <Label size={"medium"}>
+                                Book is currently unavailable.
+                            </Label>
+                            :
+                            <div>
+                                <Button onClick={() => loanBook()}>Loan this Book</Button>
+                            </div>}
+                    </Modal.Body>
+                </Modal>
+            </Page.Block>
+        </main>
     )
 
 }

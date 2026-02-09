@@ -1,5 +1,4 @@
 export type UserInfo = {
-    id: number;
     name: string;
-    email: string;
+    admin: boolean;
 }

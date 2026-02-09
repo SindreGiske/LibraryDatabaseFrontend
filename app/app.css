@@ -14,8 +14,11 @@ body {
     }
 
     .dashboardBackground {
-        background-image: url('../paperBackground.png');
+        background-image: url('public/paperBackground.png');
+        background-repeat: no-repeat;
+        background-position: center;
         background-size: cover;
+        background-attachment: fixed;
     }
 
     .bookShelf {

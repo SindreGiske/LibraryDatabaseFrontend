@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router build",
-    "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js",
+    "build": "HTTPS=true react-router build",
+    "dev": "HTTPS=true react-router dev",
+    "start": "HTTPS=true react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
@@ -14,7 +14,7 @@
     "@react-router/node": "^7.7.1",
     "@react-router/serve": "^7.7.1",
     "isbot": "^5.1.27",
-    "novari-frontend-components": "^3.0.0",
+    "novari-frontend-components": "^6.0.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router": "^7.7.1"

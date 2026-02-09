@@ -5,7 +5,7 @@ const loginManager = new NovariApiManager({
     baseUrl: "http://localhost:8080/login",
 })
 
-export async function attemptLogin(email: string, password: string): Promise<ApiResponse<UserInfo | null>> {
+export async function attemptLogin(email: string, password: string): Promise<ApiResponse<null>> {
 
     return await loginManager.call({
         method: "POST",
@@ -18,7 +18,7 @@ export async function attemptLogin(email: string, password: string): Promise<Api
     })
 }
 
-export async function createUser(name: string, email: string, password: string): Promise<ApiResponse<UserInfo | null>> {
+export async function createUser(name: string, email: string, password: string): Promise<ApiResponse<null>> {
 
     return await loginManager.call({
         method: "POST",
@@ -29,5 +29,21 @@ export async function createUser(name: string, email: string, password: string):
             "email": email,
             "password": password,
         }
+    })
+}
+
+export async function deleteSelf(): Promise<ApiResponse<null>> {
+    return await loginManager.call({
+        method: "DELETE",
+        endpoint: `/delete`,
+        functionName: "deleteSelf",
+    })
+}
+
+export async function getMe(): Promise<ApiResponse<UserInfo | undefined>> {
+    return await loginManager.call({
+        method: "GET",
+        endpoint: `/me`,
+        functionName: "me",
     })
 }

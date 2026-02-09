@@ -24,9 +24,8 @@ function CreateUser() {
                 try {
                     const data = await createUser(name, email, password);
 
-                    console.log("CreateUser res data: " + data);
                     setMessage(data.message);
-                    if (data.status == 200) {
+                    if (data.status == 201) {
                         setUser(data.body)
                         ref.current?.showModal()
                     }
@@ -84,8 +83,15 @@ function CreateUser() {
                     </Box>
                 )}
             </VStack>
-            <Modal ref={ref} header={{heading: `User ${email} has been created!`, size: "small"}}>
-                <Modal.Body>
+            <Modal ref={ref} aria-labelledby="user_created_modal">
+                <Modal.Header>`Welcome ${name} to the Library!`</Modal.Header>
+                <Modal.Body className="flex flex-col items-center justify-center p-8 gap-2">
+                    <Switch
+                        checked={keepLoggedIn}
+                        onChange={(e) => setKeepLoggedIn(e.target.checked)}
+                    >
+                        Keep me logged in
+                    </Switch>
                     <Button onClick={() => (navigate("/dashboard", {replace: true}))}>Log In</Button>
                 </Modal.Body>
             </Modal>

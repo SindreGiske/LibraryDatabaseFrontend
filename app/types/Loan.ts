@@ -1,9 +1,8 @@
-import type {Book} from "~/types/Book";
-
 export type Loan = {
     id: string;
-    book: Book;
-    userId: string;
+    username: string;
+    bookTitle: string;
+    bookAuthor: string;
     borrowTime: string;
     returnTime?: string;
 }
