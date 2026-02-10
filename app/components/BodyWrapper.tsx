@@ -1,18 +1,25 @@
 import {Page} from "@navikt/ds-react";
 import {NovariHeader} from "novari-frontend-components";
+import {useNavigate} from "react-router";
 import {useUser} from "~/context/UserContext";
 
 export function BodyWrapper({children}: { children: React.ReactNode }) {
-    const {user} = useUser()
+    const navigate = useNavigate();
+    const {user, clearUser} = useUser();
 
     return (
         <Page className="!bg-white">
             <NovariHeader
                 appName={"Library"}
-                menu={[["dashboard", "/dashboard"], ["rent a book", ""]]} isLoggedIn={!!user}
-                displayName={user?.email}/>
+                menu={[{label: "Home", action: "/Dashboard"}, {label: "Profile", action: "/Profile"},
+                    ...(user?.admin ? [{label: "Admin", action: "/Admin"}] : []),
+                ]}
+                onMenuClick={navigate}
+                isLoggedIn={!!user}
+                onLogout={clearUser}
+                displayName={user?.name}/>
+
             {children}
         </Page>
     )
-
 }

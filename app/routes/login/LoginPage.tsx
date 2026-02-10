@@ -6,7 +6,7 @@ import {useUser} from "~/context/UserContext";
 
 
 function LoginPage() {
-    const {setUser} = useUser();
+    const {setPersist, refreshUser} = useUser();
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -20,9 +20,8 @@ function LoginPage() {
             try {
                 const data = await attemptLogin(email, password);
                 if (data.status == 200) {
-                    setMessage(data.message);
-                    setUser(data.data!!, keepLoggedIn);
-                    console.log("LoginPage HandleLogin data.body:   ", data.body, "data.data:", data.data)
+                    setPersist(keepLoggedIn)
+                    await refreshUser();
                     navigate("/dashboard", {replace: true});
                 } else {
                     setMessage(data.message);

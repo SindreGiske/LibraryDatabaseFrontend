@@ -1,6 +1,5 @@
 import {type ApiResponse, NovariApiManager} from "novari-frontend-components";
 import type {UserInfo} from "~/types/UserInfo";
-import {SessionProperties} from "~/config/SessionProperties";
 
 const loginManager = new NovariApiManager({
     baseUrl: "/api",
@@ -16,9 +15,15 @@ export async function attemptLogin(email: string, password: string): Promise<Api
             "email": email,
             "password": password,
         },
-        additionalHeaders: {
-            Cookie: SessionProperties.getCookie(),
-        }
+    })
+}
+
+export async function logOut(): Promise<ApiResponse<null>> {
+
+    return await loginManager.call({
+        method: "POST",
+        endpoint: `/login/logout`,
+        functionName: "logout",
     })
 }
 
@@ -44,7 +49,7 @@ export async function deleteSelf(): Promise<ApiResponse<null>> {
     })
 }
 
-export async function getMe(): Promise<ApiResponse<UserInfo | undefined>> {
+export async function getMe(): Promise<ApiResponse<UserInfo | null>> {
     return await loginManager.call({
         method: "GET",
         endpoint: `/login/me`,
