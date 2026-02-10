@@ -1,19 +1,23 @@
 import {type ApiResponse, NovariApiManager} from "novari-frontend-components";
 import type {UserInfo} from "~/types/UserInfo";
+import {SessionProperties} from "~/config/SessionProperties";
 
 const loginManager = new NovariApiManager({
-    baseUrl: "http://localhost:8080/login",
+    baseUrl: "/api",
 })
 
 export async function attemptLogin(email: string, password: string): Promise<ApiResponse<null>> {
 
     return await loginManager.call({
         method: "POST",
-        endpoint: ``,
+        endpoint: `/login`,
         functionName: "login",
         body: {
             "email": email,
             "password": password,
+        },
+        additionalHeaders: {
+            Cookie: SessionProperties.getCookie(),
         }
     })
 }
@@ -22,7 +26,7 @@ export async function createUser(name: string, email: string, password: string):
 
     return await loginManager.call({
         method: "POST",
-        endpoint: `/register`,
+        endpoint: `/login/register`,
         functionName: "createUser",
         body: {
             "name": name,
@@ -35,7 +39,7 @@ export async function createUser(name: string, email: string, password: string):
 export async function deleteSelf(): Promise<ApiResponse<null>> {
     return await loginManager.call({
         method: "DELETE",
-        endpoint: `/delete`,
+        endpoint: `/login/delete`,
         functionName: "deleteSelf",
     })
 }
@@ -43,7 +47,7 @@ export async function deleteSelf(): Promise<ApiResponse<null>> {
 export async function getMe(): Promise<ApiResponse<UserInfo | undefined>> {
     return await loginManager.call({
         method: "GET",
-        endpoint: `/me`,
+        endpoint: `/login/me`,
         functionName: "me",
     })
 }
