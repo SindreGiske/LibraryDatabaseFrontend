@@ -5,8 +5,7 @@ import {createUser} from "~/api/LoginAPI";
 import {useUser} from "~/context/UserContext";
 
 function CreateUser() {
-
-    const {setUser} = useUser();
+    const {setPersist, refreshUser} = useUser();
     const navigate = useNavigate();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -26,7 +25,8 @@ function CreateUser() {
 
                     setMessage(data.message);
                     if (data.status == 201) {
-                        setUser(data.body)
+                        setPersist(keepLoggedIn)
+                        await refreshUser();
                         ref.current?.showModal()
                     }
                 } catch (e) {
@@ -84,7 +84,7 @@ function CreateUser() {
                 )}
             </VStack>
             <Modal ref={ref} aria-labelledby="user_created_modal">
-                <Modal.Header>`Welcome ${name} to the Library!`</Modal.Header>
+                <Modal.Header>"Welcome to the Library!"</Modal.Header>
                 <Modal.Body className="flex flex-col items-center justify-center p-8 gap-2">
                     <Switch
                         checked={keepLoggedIn}

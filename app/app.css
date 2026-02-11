@@ -14,11 +14,8 @@ body {
     }
 
     .dashboardBackground {
-        background-image: url('/paperBackground.png');
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
-        background-attachment: fixed;
+        background: url('/paperBackground.png') center / cover no-repeat;
+        min-height: 100vh;
     }
 
     .bookShelf {
@@ -31,6 +28,8 @@ body {
         padding: 8px;
 
         width: 360px;
+
+        min-height: 100vh;
     }
 
     .bookComponent {

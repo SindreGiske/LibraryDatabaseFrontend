@@ -8,7 +8,7 @@ export function BodyWrapper({children}: { children: React.ReactNode }) {
     const {user, clearUser} = useUser();
 
     return (
-        <Page className="!bg-white">
+        <Page>
             <NovariHeader
                 appName={"Library"}
                 menu={[{label: "Home", action: "/Dashboard"}, {label: "Profile", action: "/Profile"},

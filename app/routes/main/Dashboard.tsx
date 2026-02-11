@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Button, Heading, Label, Loader, Modal, Page, VStack} from "@navikt/ds-react";
+import {BodyLong, Button, Heading, Label, Loader, Modal, Page, VStack} from "@navikt/ds-react";
 import type {Book} from "~/types/Book";
 import {getAllBooks} from "~/api/BooksAPI";
 import BookComponent from "~/components/BookComponent";
@@ -88,7 +88,9 @@ export default function Dashboard() {
                     >
                         <Modal.Header closeButton className={"text-center"}>
                             <Heading size={"xlarge"}>{selectedBook?.title}</Heading>
-                            <Heading size={"medium"}>Author: {selectedBook?.author}</Heading>
+                            <Heading size={"medium"} spacing={true}>Author: {selectedBook?.author}</Heading>
+                            <Label spacing={true}>description:</Label>
+                            <BodyLong>{selectedBook?.description}</BodyLong>
                         </Modal.Header>
                         <Modal.Body className={"flex justify-center"}>
                             {selectedBook?.loaned ?
