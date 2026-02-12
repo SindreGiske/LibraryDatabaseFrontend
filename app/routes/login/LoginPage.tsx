@@ -10,12 +10,14 @@ function LoginPage() {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [keepLoggedIn, setKeepLoggedIn] = useState(false);
+    const [keepLoggedIn, setKeepLoggedIn] = useState(true);
     const [message, setMessage] = useState<string | null>(null);
+
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        localStorage.clear()
         if (email && password) {
             try {
                 const data = await attemptLogin(email, password);

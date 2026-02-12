@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {BodyLong, Button, Heading, Label, Loader, Modal, Page, VStack} from "@navikt/ds-react";
+import {BodyLong, Button, Heading, HGrid, Label, Loader, Modal, Page, VStack} from "@navikt/ds-react";
 import type {Book} from "~/types/Book";
 import {getAllBooks} from "~/api/BooksAPI";
 import BookComponent from "~/components/BookComponent";
@@ -28,17 +28,18 @@ export default function Dashboard() {
         setAlerts(prev => [...prev, newAlert]);
     };
 
-    useEffect(() => {
-        const loadBooks = async () => {
-            try {
-                const response = await getAllBooks();
-                setAllBooks(response.data);
-            } catch (err) {
-                console.error("Dashboard: Failed to load books: ", err);
-            } finally {
-                setLoading(false);
-            }
+    const loadBooks = async () => {
+        try {
+            const response = await getAllBooks();
+            setAllBooks(response.data);
+        } catch (err) {
+            console.error("Dashboard: Failed to load books: ", err);
+        } finally {
+            setLoading(false);
         }
+    }
+
+    useEffect(() => {
         void loadBooks();
     }, [])
 
@@ -50,12 +51,16 @@ export default function Dashboard() {
         }
         try {
             const loan = await createLoan(selectedBook.id);
-            addAlert(loan.variant, loan.message, "header");
-            console.log("Loan book User: ", user);
-            console.log("Loaning Book: ", loan);
+            if (loan.status == 200) {
+                addAlert(loan.variant, selectedBook.title + " by " + selectedBook.author, loan.message);
+            } else {
+                addAlert(loan.variant, selectedBook.title + " by " + selectedBook.author, loan.message);
+            }
+
         } catch (err) {
             console.error("Failed to create loan:", err);
         }
+        void loadBooks()
     }
 
     return loading ? (
@@ -67,18 +72,25 @@ export default function Dashboard() {
             <main className={"dashboardBackground"}>
                 <NovariSnackbar items={alerts}/>
                 <Page.Block gutters width={"lg"}>
-
-
-                    <VStack className={"bookShelf"}>
-                        <Heading size="large" className={"w-full text-center"}>All books</Heading>
-                        {allBooks?.map((book) => (
-                            <BookComponent
-                                key={book.id}
-                                book={book}
-                                onClick={() => setSelectedBook(book)}
-                            />
-                        ))}
-                    </VStack>
+                    <HGrid margin={"0"} gap={"space-12"} columns={2}>
+                        <VStack className={"bookShelf min-h-screen"}>
+                            <Heading size="large" className={"w-full text-center"}>All books</Heading>
+                            {allBooks?.map((book) => (
+                                <BookComponent
+                                    key={book.id}
+                                    book={book}
+                                    onClick={() => setSelectedBook(book)}
+                                />
+                            ))}
+                        </VStack>
+                        <VStack className={"dashboardHeading"}>
+                            <Heading size="xlarge"> Welcome to the Library</Heading>
+                            <BodyLong size={"large"}>Here you can loan any book you want as long as it's
+                                available! Provided you are logged in you can loan and return books at any
+                                time. </BodyLong>
+                            <Heading size={"medium"}>TODO: Search for Books Here?</Heading>
+                        </VStack>
+                    </HGrid>
                     <Modal
                         width={"small"}
                         open={!!selectedBook}
@@ -95,7 +107,7 @@ export default function Dashboard() {
                         <Modal.Body className={"flex justify-center"}>
                             {selectedBook?.loaned ?
                                 <Label size={"medium"}>
-                                    Book is currently unavailable.
+                                    Book is currently loaned out.
                                 </Label>
                                 :
                                 <div>

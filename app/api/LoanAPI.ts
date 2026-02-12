@@ -4,14 +4,12 @@ const apiManager = new NovariApiManager({
     baseUrl: "/api",
 })
 
-export async function createLoan(bookId: number): Promise<ApiResponse<any>> {
+export async function createLoan(bookId: string): Promise<ApiResponse<any>> {
     return await apiManager.call({
         method: "POST",
-        endpoint: "/loan",
+        endpoint: `/loan`,
         functionName: "createLoan",
-        body: {
-            "bookId": bookId,
-        }
+        body: bookId,
     })
 }
 
@@ -23,13 +21,11 @@ export async function getMyLoans(): Promise<ApiResponse<any>> {
     })
 }
 
-export async function returnBook(loanId: number): Promise<ApiResponse<any>> {
+export async function returnBook(loanId: string): Promise<ApiResponse<any>> {
     return await apiManager.call({
         method: "PATCH",
         endpoint: "/loan/return",
         functionName: "returnBook",
-        body: {
-            "loanId": loanId
-        }
+        body: loanId
     })
 }
