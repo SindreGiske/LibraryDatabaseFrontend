@@ -5,13 +5,11 @@ import {getAllBooks} from "~/api/BooksAPI";
 import BookComponent from "~/components/BookComponent";
 import {createLoan} from "~/api/LoanAPI";
 import {useUser} from "~/context/UserContext";
-import {useNavigate} from "react-router";
 import {NovariSnackbar, type NovariSnackbarItem, type NovariSnackbarVariant} from "novari-frontend-components";
 import {RequireAuth} from "~/components/RequireAuth";
 
 export default function Dashboard() {
     const {user} = useUser();
-    const navigate = useNavigate();
     const [allBooks, setAllBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -92,14 +90,14 @@ export default function Dashboard() {
                         </VStack>
                     </HGrid>
                     <Modal
-                        width={"small"}
+                        width={"medium"}
                         open={!!selectedBook}
                         closeOnBackdropClick={true}
                         onClose={() => setSelectedBook(null)}
                         aria-label={"HELP ME I'M TRAPPED INSIDE A COMPUTER AAAAAAAAAAAAAAAAAAAAHHH!!!!"}
                     >
                         <Modal.Header closeButton className={"text-center"}>
-                            <Heading size={"xlarge"}>{selectedBook?.title}</Heading>
+                            <Heading size={"xlarge"} className={"pl-11"}>{selectedBook?.title}</Heading>
                             <Heading size={"medium"} spacing={true}>Author: {selectedBook?.author}</Heading>
                             <Label spacing={true}>description:</Label>
                             <BodyLong>{selectedBook?.description}</BodyLong>

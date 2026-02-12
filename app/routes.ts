@@ -5,5 +5,5 @@ export default [
     route("CreateUser", "routes/login/CreateUser.tsx"),
     route("Dashboard", "routes/main/Dashboard.tsx"),
     route("Profile", "routes/main/Profile.tsx"),
-
+    route("Admin", "routes/main/Admin.tsx"),
 ] satisfies RouteConfig;
