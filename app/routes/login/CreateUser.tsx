@@ -13,7 +13,7 @@ function CreateUser() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState<string | null>(null);
     const ref = useRef<HTMLDialogElement>(null);
-    const [keepLoggedIn, setKeepLoggedIn] = useState(false);
+    const [keepLoggedIn, setKeepLoggedIn] = useState(true);
 
     const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -84,7 +84,7 @@ function CreateUser() {
                 )}
             </VStack>
             <Modal ref={ref} aria-labelledby="user_created_modal">
-                <Modal.Header>"Welcome to the Library!"</Modal.Header>
+                <Modal.Header>"Welcome to the Library, {name}!"</Modal.Header>
                 <Modal.Body className="flex flex-col items-center justify-center p-8 gap-2">
                     <Switch
                         checked={keepLoggedIn}

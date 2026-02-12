@@ -18,18 +18,34 @@ body {
         min-height: 100vh;
     }
 
+    .dashboardHeading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        padding-top: 48px;
+
+        width: 100%;
+    }
+
+    .dashboardHeading > * {
+        justify-content: center;
+        width: 100%;
+        text-align: center;
+
+        padding: 12px;
+    }
+
     .bookShelf {
-        background-color: rgba(134, 100, 61, 0.5);
+        background-color: rgba(134, 100, 61, 0.1);
 
-        box-shadow: inset #3e3832 4px 8px 16px 4px;
+        box-shadow: inset #3e3832 4px 4px 32px 2px;
 
-        border-color: #3e3832;
+        border-color: rgba(134, 100, 61, 0.6);
         border-width: 1px;
         padding: 8px;
 
         width: 360px;
-
-        min-height: 100vh;
     }
 
     .bookComponent {
@@ -42,7 +58,7 @@ body {
         color: #F8ECDC;
 
         width: 100%;
-        height: 82px;
+        height: 94px;
         margin: 2px;
 
         border-radius: 24px;
@@ -51,9 +67,28 @@ body {
         transition-duration: 0.2s;
     }
 
+    .bookComponent > * {
+        width: 100%;
+    }
+
+    .bookAvailabilityLabel {
+        font-size: 12px;
+        padding-right: 4px;
+    }
+
     .bookComponent:hover {
         background-color: #6B133D;
         scale: 102%;
         transition-duration: 0.3s;
+    }
+
+    .profileCard {
+        background-color: rgba(252, 245, 237, 1);
+        width: fit-content;
+        padding-right: 16px;
+        margin: 8px;
+
+        border-radius: 32px;
+        border: black solid;
     }
 }

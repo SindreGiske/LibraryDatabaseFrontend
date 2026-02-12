@@ -1,5 +1,6 @@
-import {Box, Button, Heading, Label} from "@navikt/ds-react";
+import {Button, Heading} from "@navikt/ds-react";
 import type {Book} from "~/types/Book";
+import {CircleSlashIcon, InboxDownIcon} from "@navikt/aksel-icons";
 
 type BookProps = {
     book: Book;
@@ -11,18 +12,21 @@ export default function BookComponent(
 ) {
 
     return (
-        <Box className={"bookCase"}>
-            <Button className={"bookComponent"} onClick={onClick}>
-                <Heading align={"center"} size={"small"}>{book.title}</Heading>
-                <Heading align={"center"} size={"xsmall"}>{book.author}</Heading>
-            </Button>
-            <div className={"w-full text-center"}>
-                {book.loaned ?
-                    <Label>this book currently unavailable.</Label>
-                    :
-                    null
-                }
-            </div>
-        </Box>
+        <Button className={"bookComponent"} onClick={onClick}>
+            <Heading align={"center"} size={"medium"}>{book.title}</Heading>
+            <Heading align={"center"} size={"small"}>{book.author}</Heading>
+
+            {book.loaned ?
+                <div className={"text-center justify-end flex align-middle"}>
+                    <label className={"bookAvailabilityLabel"}>not available</label>
+                    <CircleSlashIcon title="a11y-title" fontSize="1.5rem"/>
+                </div>
+                :
+                <div className={"text-center justify-end flex"}>
+                    <label className={"bookAvailabilityLabel"}>available</label>
+                    <InboxDownIcon title="a11y-title" fontSize="1.5rem"/>
+                </div>
+            }
+        </Button>
     )
 }

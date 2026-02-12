@@ -8,7 +8,8 @@ export function BodyWrapper({children}: { children: React.ReactNode }) {
     const {user, clearUser} = useUser();
 
     return (
-        <Page>
+        <Page footer={false} contentBlockPadding={"none"}>
+            {/* @ts-ignore */}
             <NovariHeader
                 appName={"Library"}
                 menu={[{label: "Home", action: "/Dashboard"}, {label: "Profile", action: "/Profile"},
@@ -18,7 +19,6 @@ export function BodyWrapper({children}: { children: React.ReactNode }) {
                 isLoggedIn={!!user}
                 onLogout={clearUser}
                 displayName={user?.name}/>
-
             {children}
         </Page>
     )
