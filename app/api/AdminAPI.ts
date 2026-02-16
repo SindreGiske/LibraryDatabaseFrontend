@@ -53,14 +53,11 @@ export async function getAllLoans(): Promise<ApiResponse<any>> {
 }
 
 export async function getSpecificUserLoans(subjectId: string): Promise<ApiResponse<Loan[]>> {
-    return await apiManager.call({
+    return apiManager.call({
         method: "GET",
-        endpoint: "/admin/getUserLoans",
+        endpoint: `/admin/getUserLoans/${encodeURIComponent(subjectId)}`,
         functionName: "getSpecificUserLoans",
-        body: {
-            subjectId
-        }
-    })
+    });
 }
 
 export async function getAllBooksAdmin(): Promise<ApiResponse<any>> {

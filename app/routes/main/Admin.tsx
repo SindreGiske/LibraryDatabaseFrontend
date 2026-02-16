@@ -6,12 +6,13 @@ import {
     type NovariSnackbarItem,
     type NovariSnackbarVariant
 } from "novari-frontend-components";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import type {AdminOverviewType} from "~/types/AdminOverviewType";
 import {adminOverview, getAllUsers, getSpecificUserLoans} from "~/api/AdminAPI";
 import {PersonCircleFillIcon} from "@navikt/aksel-icons";
 import AdminUserViewComponent from "~/components/AdminUserViewComponent";
 import type {Loan} from "~/types/Loan";
+import {formatDateTime} from "~/util/formatDateTime";
 
 
 export default function Admin() {
@@ -19,7 +20,7 @@ export default function Admin() {
     const [overview, setOverview] = useState<AdminOverviewType | null>(null);
     const [allUsers, setAllUsers] = useState<AdminFullUserInformation[]>([]);
     const [selectedUser, setSelectedUser] = useState<AdminFullUserInformation | null>(null);
-    const [selectedUserLoans, setSelectedUserLoans] = useState<Loan[] | null>(null);
+    const [selectedUserLoans, setSelectedUserLoans] = useState<Loan[]>([]);
 
     const addAlert = (variant: NovariSnackbarVariant, message: string, header: string) => {
         const newAlert = {
@@ -51,14 +52,22 @@ export default function Admin() {
     }, []);
 
     async function fetchSelectedUserLoans() {
-        console.log(selectedUser!!.id)
         const response = await getSpecificUserLoans(selectedUser!!.id)
         setSelectedUserLoans(response.data as Loan[])
     }
 
+    const sortedUserLoans = useMemo(() => {
+        return [...selectedUserLoans].sort((a, b) => {
+            if (a.active !== b.active) {
+                return a.active ? -1 : 1;
+            }
+            return new Date(b.borrowTime).getTime() - new Date(a.borrowTime).getTime();
+        });
+    }, [selectedUserLoans]);
+
     useEffect(() => {
         if (selectedUser == null) {
-            setSelectedUserLoans(null);
+            setSelectedUserLoans([]);
         } else {
             void fetchSelectedUserLoans();
         }
@@ -131,7 +140,8 @@ export default function Admin() {
                             <Heading size={"large"} spacing>All Users: </Heading>
                             {allUsers.map((user) => {
                                 return (
-                                    <AdminUserViewComponent user={user} onClick={() => (setSelectedUser(user))}/>
+                                    <AdminUserViewComponent key={user.email} user={user}
+                                                            onClick={() => (setSelectedUser(user))}/>
                                 )
                             })}
                         </VStack>
@@ -150,8 +160,28 @@ export default function Admin() {
                     <Heading size={"medium"} spacing={true}>Author: {selectedUser?.email}</Heading>
                     <Label spacing={true}>userID: {selectedUser?.id}</Label>
                 </Modal.Header>
-                <Modal.Body className={"flex justify-center"}>
-                    <></>
+                <Modal.Body className={"flex justify-center mb-2"}>
+                    <VStack gap={"3"} className={"mb-16"}>
+                        <Heading size={"large"}> Loan History:</Heading>
+                        <hr/>
+                        {sortedUserLoans?.map((loan) => (
+                            <HGrid columns={2} gap={"5"} key={loan.id} className={"justify-center bg-amber-50" +
+                                " rounded-3xl border-1 p-2 mb-2"}>
+                                <VStack className={"items-center justify-center"}>
+                                    <Heading size={"large"}>{loan.title}</Heading>
+                                    <Heading size={"medium"}>{loan.author}</Heading>
+                                </VStack>
+                                <VStack className={"items-center justify-center"}>
+                                    <Heading size={"small"}>loaned at: {formatDateTime(loan.borrowTime)}</Heading>
+                                    {loan.active ? (
+                                        <Heading size={"small"}>Loan still active.</Heading>
+                                    ) : (
+                                        <Heading size={"small"}>loaned at: {formatDateTime(loan.returnTime!!)}</Heading>
+                                    )}
+                                </VStack>
+                            </HGrid>
+                        ))}
+                    </VStack>
                 </Modal.Body>
             </Modal>
         </RequireAuth>

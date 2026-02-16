@@ -7,6 +7,7 @@ import {PersonCircleFillIcon} from "@navikt/aksel-icons";
 import {getMyLoans, returnBook} from "~/api/LoanAPI";
 import type {Loan} from "~/types/Loan";
 import LoanComponent from "~/components/LoanComponent";
+import {formatDateTime} from "~/util/formatDateTime";
 
 export default function Profile() {
     const {user, refreshUser} = useUser()
@@ -119,11 +120,13 @@ export default function Profile() {
                         <Heading size={"medium"} spacing={true}>{selectedLoan?.author}</Heading>
                     </Modal.Header>
                     <Modal.Body className={"flex justify-center flex-col text-center items-center"}>
-                        <Heading size={"small"} spacing={true}>Book loaned at : {selectedLoan?.borrowTime}</Heading>
+                        <Heading size={"small"} spacing={true}>Book loaned at
+                            : {formatDateTime(selectedLoan?.borrowTime!!)}</Heading>
                         {selectedLoan?.returnTime == null ? (
                             <Button onClick={() => returnABook()} className={"w-fit"}>Return this Book</Button>
                         ) : (
-                            <Heading size={"small"}>Book returned at : {selectedLoan.returnTime}</Heading>
+                            <Heading size={"small"}>Book returned at
+                                : {formatDateTime(selectedLoan.returnTime)}</Heading>
                         )
                         }
 
