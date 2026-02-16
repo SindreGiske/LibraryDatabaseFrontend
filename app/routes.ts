@@ -3,6 +3,7 @@ import {index, route, type RouteConfig} from "@react-router/dev/routes";
 export default [
     index("routes/login/LoginPage.tsx"),
     route("CreateUser", "routes/login/CreateUser.tsx"),
+    route("DeleteAccount", "routes/login/DeleteAccount.tsx"),
     route("Dashboard", "routes/main/Dashboard.tsx"),
     route("Profile", "routes/main/Profile.tsx"),
     route("Admin", "routes/main/Admin.tsx"),

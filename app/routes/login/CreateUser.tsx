@@ -70,13 +70,6 @@ function CreateUser() {
                     />
                     <Button type="submit" color="secondary">Create</Button>
                 </Form>
-
-                <Switch
-                    checked={keepLoggedIn}
-                    onChange={(e) => setKeepLoggedIn(e.target.checked)}
-                >
-                    Keep me logged in
-                </Switch>
                 {message && (
                     <Box className="mt-4 p-4 border rounded-lg bg-gray-100">
                         {message}

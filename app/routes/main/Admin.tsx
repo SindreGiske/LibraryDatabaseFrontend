@@ -1,5 +1,5 @@
 import {RequireAuth} from "~/components/RequireAuth";
-import {Box, Heading, HGrid, HStack, Label, Modal, Page, VStack} from "@navikt/ds-react";
+import {Box, Button, Heading, HGrid, HStack, Label, Modal, Page, VStack} from "@navikt/ds-react";
 import {
     NovariCircularProgressBar,
     NovariSnackbar,
@@ -8,8 +8,8 @@ import {
 } from "novari-frontend-components";
 import {useEffect, useMemo, useState} from "react";
 import type {AdminOverviewType} from "~/types/AdminOverviewType";
-import {adminOverview, getAllUsers, getSpecificUserLoans} from "~/api/AdminAPI";
-import {PersonCircleFillIcon} from "@navikt/aksel-icons";
+import {adminOverview, getAllUsers, getSpecificUserLoans, setAnotherUserAsAdmin} from "~/api/AdminAPI";
+import {PersonCircleFillIcon, PersonFillIcon, SealCheckmarkFillIcon} from "@navikt/aksel-icons";
 import AdminUserViewComponent from "~/components/AdminUserViewComponent";
 import type {Loan} from "~/types/Loan";
 import {formatDateTime} from "~/util/formatDateTime";
@@ -71,9 +71,12 @@ export default function Admin() {
         } else {
             void fetchSelectedUserLoans();
         }
-
-
     }, [selectedUser]);
+
+    async function makeUserAdmin() {
+        const response = await setAnotherUserAsAdmin(selectedUser!!.id)
+        addAlert(response.variant, response.message, response.variant);
+    }
 
     return (
         <RequireAuth adminOnly>
@@ -157,7 +160,21 @@ export default function Admin() {
             >
                 <Modal.Header closeButton className={""}>
                     <Heading size={"xlarge"} className={""}>{selectedUser?.name}</Heading>
-                    <Heading size={"medium"} spacing={true}>Author: {selectedUser?.email}</Heading>
+                    <Heading size={"medium"} spacing={true}>mail: {selectedUser?.email}</Heading>
+                    <Heading size={"medium"}>Status: </Heading>
+                    {selectedUser?.admin ? (
+                        <HStack className={"pb-4 items-center"} gap={"2"}>
+                            <Heading size={"small"}>Admin</Heading>
+                            <SealCheckmarkFillIcon className={""} title="a11y-title" fontSize="1.5rem"/>
+                        </HStack>
+                    ) : (
+                        <HStack className={"pb-4 items-center"} gap={"2"}>
+                            <Heading size={"small"}>User</Heading>
+                            <PersonFillIcon title="a11y-title" fontSize="1.5rem"/>
+                            <Button onClick={() => makeUserAdmin()} size={"small"}>Make user
+                                admin</Button>
+                        </HStack>
+                    )}
                     <Label spacing={true}>userID: {selectedUser?.id}</Label>
                 </Modal.Header>
                 <Modal.Body className={"flex justify-center mb-2"}>

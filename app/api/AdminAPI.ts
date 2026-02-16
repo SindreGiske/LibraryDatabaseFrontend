@@ -71,10 +71,7 @@ export async function getAllBooksAdmin(): Promise<ApiResponse<any>> {
 export async function setAnotherUserAsAdmin(subjectId: string): Promise<ApiResponse<any>> {
     return await apiManager.call({
         method: "PATCH",
-        endpoint: "/admin/addAdmin",
+        endpoint: `/admin/addAdmin/${encodeURIComponent(subjectId)}`,
         functionName: "setAnotherUserAsAdmin",
-        body: {
-            subjectId
-        }
     })
 }

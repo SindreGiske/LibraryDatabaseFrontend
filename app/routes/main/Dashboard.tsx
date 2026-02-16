@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {BodyLong, Button, Heading, HGrid, Label, Loader, Modal, Page, VStack} from "@navikt/ds-react";
 import type {Book} from "~/types/Book";
 import {getAllBooks} from "~/api/BooksAPI";
@@ -36,6 +36,10 @@ export default function Dashboard() {
             setLoading(false);
         }
     }
+
+    const availableBooks = useMemo(() => {
+        return [...allBooks].filter(book => !book.loaned)
+    }, [allBooks]);
 
     useEffect(() => {
         void loadBooks();
@@ -86,7 +90,16 @@ export default function Dashboard() {
                             <BodyLong size={"large"}>Here you can loan any book you want as long as it's
                                 available! Provided you are logged in you can loan and return books at any
                                 time. </BodyLong>
-                            <Heading size={"medium"}>TODO: Search for Books Here?</Heading>
+                            <VStack>
+                                <Heading size={"large"}>Available books</Heading>
+                                {availableBooks?.map((book) => (
+                                    <BookComponent
+                                        key={book.id}
+                                        book={book}
+                                        onClick={() => setSelectedBook(book)}
+                                    />
+                                ))}
+                            </VStack>
                         </VStack>
                     </HGrid>
                     <Modal

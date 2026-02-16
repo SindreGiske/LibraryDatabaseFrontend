@@ -8,9 +8,11 @@ import {getMyLoans, returnBook} from "~/api/LoanAPI";
 import type {Loan} from "~/types/Loan";
 import LoanComponent from "~/components/LoanComponent";
 import {formatDateTime} from "~/util/formatDateTime";
+import {useNavigate} from "react-router";
 
 export default function Profile() {
     const {user, refreshUser} = useUser()
+    const navigate = useNavigate();
     const [allLoans, setAllLoans] = useState<Loan[]>([])
     const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null)
 
@@ -59,6 +61,13 @@ export default function Profile() {
         void loadLoans();
     }
 
+    async function deleteUser(): Promise<void> {
+        if (activeLoans?.length == 0) {
+            navigate(("/DeleteAccount"), {replace: true})
+        } else addAlert("error", "User can not be deleted with active loans", "Error")
+
+    }
+
     return (
         <RequireAuth>
             <main className={"dashboardBackground"}>
@@ -66,11 +75,13 @@ export default function Profile() {
                 <Page.Block gutters width={"lg"}>
                     <Heading size={"xlarge"} className={"w-full text-center p-8"}>Profile</Heading>
                     <HGrid gap={"space-12"} columns={2}>
-                        <VStack>
+                        <VStack gap={"4"}>
                             <HStack align="center" gap={"2"} className={"profileCard"}>
                                 <PersonCircleFillIcon title="a11y-title" fontSize="4rem"/>
                                 <Heading size={"large"}>{user?.name}</Heading>
                             </HStack>
+                            <Button onClick={() => deleteUser()} className={"w-48"} variant={"danger"}>Delete
+                                account</Button>
                         </VStack>
                         <VStack className="bookShelf">
                             <Heading size="xlarge" spacing className="w-full text-center">
